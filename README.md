@@ -3,7 +3,7 @@
 ## Java 9
 
 ### Java REPL (JShell)  
-It stands for Java Shell. It's used to easily execute and test any Java construction like a class, interface, enum, etc.  
+It stands for _Java Shell_. It's used to easily execute and test any Java construction like a class, interface, enum, etc.  
 
 ### Factory Methods for Inmutable Collections (List, Map, Set & Map.Entry)
 _(I'll use Lists as an example in this file, but this is valid for Maps and Sets too)_  
@@ -30,7 +30,9 @@ public interface Card {
 ```
 
 ### Module System (to expand)
-The way we deploy Java-Based applications using jars has a lot of limitations & drawbacks. To avoid all these the new Module System introduces the following features:  
+The way we deploy Java-Based applications using jars has a lot of limitations & drawbacks. Some of these are: The JRE/JDK are too big; JAR files are too big to use in small devices and applications; There's no strong encapsulation, _public_ is open to everyone.    
+
+To avoid all of these, the new Module System introduces the following features:   
 
 * Modular JDK  
 * Modular Java Source Code  
@@ -60,17 +62,54 @@ try(reader1) {
 ```
 
 ### Reactive Streams (to expand)
-With the popularity of reactive programming, Java is adding support to it too.
+With the popularity of reactive programming, Java is adding support to it too.  
+
+* Publisher  
+* Subscriber  
+* Processor  
 
 ### API Improvements
 
-#### HTTP Client Protocol
-#### Process API
+#### HTTP 2 Client Protocol
+_(Improved in Java11 again)_  
+
+There's a new HTTP 2 Client API to support HTTP/2 protocol and WebSocket features. It also supports HTTP/1.1 and may be used sync. or async.  
+```
+Uri uri = new URI("http://example_request");
+HttpResponse response = HttpRequest.create(uri)
+								   .body(HttpRequest.noBody())
+								   .GET()
+								   .response();
+```
+
+#### Optional#stream() (to expand)
+If a value is present in the given Optional object, stream returns a sequential Stream with that value. Otherwise, it returns an empty Stream.  
+```
+Stream<Optional> employee = this.getEmployee(id);
+Stream employeeStream = employee.flatMap(Optional::stream);
+```
+#### Streams (to expand)
+There're 4 new methods  
+
+##### Stream#takeWhile(Predicate)
+Takes a predicate as an argument and returns a Stream of the subset **until the predicate returns _false_ for the first time**. If the first value is _false_, it gives an empty Stream back.  
+```
+Stream.of(1, 2, 3, 4, 5)
+	  .takeWhile(i -> i < 4)
+	  .forEach(System.out::println); // 1
+	  								 // 2
+	  								 // 3
+```
+
+##### Stream#dropWhile(Predicate)
+
 #### CompletableFutures (to expand)
 It solved some problems raised in Java8. It adds support for some delays and timeouts.  
 ```
 Executor executor = CompletableFuture.delayedExecutor(50L, TimeUnit.SECONDS);
 ```
+
+#### Process API
 
 ### References
 https://www.journaldev.com/13121/java-9-features-with-examples
@@ -225,7 +264,7 @@ List<String> lines = s.lines().collect(Collectors.toList()); // bla
 															  // ble
 ```
 
-### TLS 1.3
+### TLS 1.3 (to expand)
 
 ### Misc
 JavaEE and CORBA modules were removed.  
