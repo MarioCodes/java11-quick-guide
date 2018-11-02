@@ -1,4 +1,4 @@
-#From Java8 to Java11 - development guide
+# From Java8 to Java11 - development guide
 
 ## Java 9
 
@@ -6,7 +6,7 @@
 It stands for Java Shell. It's used to easily execute and test any Java construction like a class, interface, enum, etc.  
 
 ### Factory Methods for Inmutable Collections (List, Map, Set & Map.Entry)
-_(I'll use Lists as an example in this file, but this is valid for Maps or Sets too)_  
+_(I'll use Lists as an example in this file, but this is valid for Maps and Sets too)_  
 
 Until Java8 we could use `Collections.unmodifiableList()` to achieve this, but this is really verbose. Now we can do the same with  
 ```
@@ -14,7 +14,7 @@ List inmutableList = List.of("bla", "ble", "bli");
 ```
 
 ### Private methods in Interfaces
-To avoid redundant code and more re-usability we can use _private_ and _private static_ methods directly in interfaces now. They behaviour is the same as a normal class
+To avoid redundant code and more re-usability we can use _private_ and _private static_ methods directly in interfaces now. They behaviour is the same as in a normal class
 ```
 public interface Card {
 
@@ -29,11 +29,48 @@ public interface Card {
 }
 ```
 
-### Modules
+### Module System (to expand)
+The way we deploy Java-Based applications using jars has a lot of limitations & drawbacks. To avoid all these the new Module System introduces the following features:  
+
+* Modular JDK  
+* Modular Java Source Code  
+* Modular Run-time Images  
+* Encapsulate Java-internal APIs  
+* Java Platform Module System
+
+
 
 ### Try-with resources improvements
+The new version improves the one which was implemented in Java SE 7 with better automatic resource management.  
 
-### HTTP Client Protocol API
+Java SE 7 Example
+```
+BufferedReader reader1 = new BufferedReader(new FileReader("file.txt"));
+try(BufferedReader reader2 = reader1) {
+	// do something
+}
+```
+
+Java 9 Example
+```
+BufferedReader reader1 = new BufferedReader(new FileReader("file.txt"));
+try(reader1) {
+	// do something
+}
+```
+
+### Reactive Streams (to expand)
+With the popularity of reactive programming, Java is adding support to it too.
+
+### API Improvements
+
+#### HTTP Client Protocol
+#### Process API
+#### CompletableFutures (to expand)
+It solved some problems raised in Java8. It adds support for some delays and timeouts.  
+```
+Executor executor = CompletableFuture.delayedExecutor(50L, TimeUnit.SECONDS);
+```
 
 ### References
 https://www.journaldev.com/13121/java-9-features-with-examples
@@ -126,7 +163,7 @@ Parameters _before_ the name of the source file are passed as parameters to the 
 java -classpath /home/bla/java HelloWorld.java Param1
 ```
 
-### Type inference for lambdas
+### Type inference for lambdas (to test)
 var was introduced in Java10. The ability to use it in lambdas has been introduced in Java11.  
 
 ```
@@ -134,7 +171,7 @@ list.stream()
 	.map((var s) -> s.toLowerCase())
 	.collect(Collectors.toList());
 ```
-We already had type inference in lambdas, the difference is that with var we can use now the new annotations to Lambda parameters. **(TEST: If this does not work without var, but with the old type inference)**
+We already had type inference in lambdas, the difference is that with var we can use now the new annotations to Lambda parameters.
 
 ```
 lists.stream()
@@ -144,7 +181,7 @@ lists.stream()
 
 ### Annotations with local variables for lambda parameters
 
-### Async HTTP Client Protocol API
+### Async HTTP Client Protocol API (to expand)
 It was included in _Java9_ as an _incubator module_. In Java11 it was moved to be a part of _Java SE Standard_.  
 The new classes are:  
 
