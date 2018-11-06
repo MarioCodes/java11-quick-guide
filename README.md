@@ -5,6 +5,11 @@
 ### Java REPL (JShell)  
 It stands for _Java Shell_. It's used to easily execute and test any Java construction like a class, interface, enum, etc.  
 
+### Module System
+The way we deploy Java-Based applications using jars has a lot of limitations & drawbacks. Some of these are: The JRE & JDK are too big; JAR files are too big to use in small devices and applications; There's no strong encapsulation, _public_ is open to everyone.    
+
+The new Module System introduces new features to avoid all this. [More information here.](https://www.journaldev.com/13106/java-9-modules)
+
 ### Factory Methods for Inmutable Collections (List, Map, Set & Map.Entry)
 _(I'll use Lists as an example in this file, but this is valid for Maps and Sets too)_  
 
@@ -14,7 +19,7 @@ List inmutableList = List.of("bla", "ble", "bli");
 ```
 
 ### Private methods in Interfaces
-To avoid redundant code and more re-usability we can use _private_ and _private static_ methods directly in interfaces now. They behaviour is the same as in a normal class
+To avoid redundant code and more re-usability we can use _private_ and _private static_ methods directly in interfaces now. Their behaviour is the same as in a normal class
 ```
 public interface Card {
 
@@ -28,18 +33,6 @@ public interface Card {
 
 }
 ```
-
-### Module System (to expand)
-The way we deploy Java-Based applications using jars has a lot of limitations & drawbacks. Some of these are: The JRE/JDK are too big; JAR files are too big to use in small devices and applications; There's no strong encapsulation, _public_ is open to everyone.    
-
-To avoid all of these, the new Module System introduces the following features:   
-
-* Modular JDK  
-* Modular Java Source Code  
-* Modular Run-time Images  
-* Encapsulate Java-internal APIs  
-* Java Platform Module System
-
 
 
 ### Try-with resources improvements
@@ -61,12 +54,8 @@ try(reader1) {
 }
 ```
 
-### Reactive Streams (to expand)
-With the popularity of reactive programming, Java is adding support to it too.  
-
-* Publisher  
-* Subscriber  
-* Processor  
+### Reactive Streams
+With the popularity of reactive programming, Java is adding support to it too with the implementation of: _Publisher_, _Subscriber_ & _Processor_. [More information.](https://www.baeldung.com/java-9-reactive-streams)
 
 ### API Improvements
 
@@ -82,16 +71,18 @@ HttpResponse response = HttpRequest.create(uri)
 								   .response();
 ```
 
-#### Optional#stream() (to expand)
+#### Optionals
+##### Optional#stream() (to expand)
 If a value is present in the given Optional object, stream returns a sequential Stream with that value. Otherwise, it returns an empty Stream.  
 ```
 Stream<Optional> employee = this.getEmployee(id);
 Stream employeeStream = employee.flatMap(Optional::stream);
 ```
-#### Streams (to expand)
-There're 4 new methods  
 
-##### Stream#takeWhile(Predicate)
+#### Streams
+There are 4 new methods on Stream's API  
+
+##### Stream#takeWhile(Predicate) / #dropWhile(Predicate)
 Takes a predicate as an argument and returns a Stream of the subset **until the predicate returns _false_ for the first time**. If the first value is _false_, it gives an empty Stream back.  
 ```
 Stream.of(1, 2, 3, 4, 5)
@@ -101,7 +92,26 @@ Stream.of(1, 2, 3, 4, 5)
 	  								 // 3
 ```
 
-##### Stream#dropWhile(Predicate)
+##### Stream#iterate(T seed, Predicate<? super T> hasNext, UnaryOperator<T> next)  
+It's similar to the _for loop_. First parameter is init value, second is the condition and third is to generate the next element.  
+```
+// start value = 2; while value < 20; then value *= value
+IntStream.iterate(2, x -> x < 20, x -> x * x)
+		 .forEach(System.out::println);
+```
+
+
+##### Stream#ofNullable()
+Returns a sequential Stream containing a single element, or an empty Stream if null.  
+```
+Stream<Integer> i = Stream.ofNullable(9);
+i.forEach(System.out::println); // 9
+```
+
+```
+Stream<Integer> i = Stream.ofNullable(null);
+i.forEach(System.out::println); // 
+```
 
 #### CompletableFutures (to expand)
 It solved some problems raised in Java8. It adds support for some delays and timeouts.  
