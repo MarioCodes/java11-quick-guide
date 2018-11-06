@@ -72,11 +72,32 @@ HttpResponse response = HttpRequest.create(uri)
 ```
 
 #### Optionals
-##### Optional#stream() (to expand)
+##### Optional#stream()
 If a value is present in the given Optional object, stream returns a sequential Stream with that value. Otherwise, it returns an empty Stream.  
 ```
 Stream<Optional> employee = this.getEmployee(id);
 Stream employeeStream = employee.flatMap(Optional::stream);
+```
+
+##### Optional#ifPresentOrElse(Consumer<? super Tl> action, Runnable emptyAction)
+If a value is present, performs the given action with the value, otherwise performs the given empty-based action.  
+```
+Optional<Integer> opt = Optional.of(4);
+opt.ifPresentOrElse(System.out::println, () -> System.out.println("Not found"));
+```
+
+##### Optional#or(Supplier<? extends Optional<? extends T>> supplier)
+Returns the value contained by the Optional if it has one, or the value given by the supplier if empty.
+```
+Optional<String> opt = Optional.of("bla");
+Supplier<Optional<String>> supplier = () -> Optional.of("ble");
+System.out.println(opt.or(supplier)); // bla
+```
+
+```
+Optional<String> opt = Optional.empty()
+Supplier<Optional<String>> supplier = () -> Optional.of("ble");
+System.out.println(opt.or(supplier)); // ble
 ```
 
 #### Streams
@@ -112,14 +133,6 @@ i.forEach(System.out::println); // 9
 Stream<Integer> i = Stream.ofNullable(null);
 i.forEach(System.out::println); // 
 ```
-
-#### CompletableFutures (to expand)
-It solved some problems raised in Java8. It adds support for some delays and timeouts.  
-```
-Executor executor = CompletableFuture.delayedExecutor(50L, TimeUnit.SECONDS);
-```
-
-#### Process API
 
 ### References
 https://www.journaldev.com/13121/java-9-features-with-examples
@@ -212,7 +225,7 @@ Parameters _before_ the name of the source file are passed as parameters to the 
 java -classpath /home/bla/java HelloWorld.java Param1
 ```
 
-### Type inference for lambdas (to test)
+### Type inference for lambdas
 var was introduced in Java10. The ability to use it in lambdas has been introduced in Java11.  
 
 ```
@@ -220,7 +233,7 @@ list.stream()
 	.map((var s) -> s.toLowerCase())
 	.collect(Collectors.toList());
 ```
-We already had type inference in lambdas, the difference is that with var we can use now the new annotations to Lambda parameters.
+We already had type inference in lambdas, the difference is that with var we can use now type annotations to Lambda parameters.
 
 ```
 lists.stream()
@@ -228,9 +241,9 @@ lists.stream()
 	.collect(Collectors.toList());
 ```
 
-### Annotations with local variables for lambda parameters
+[More info on type annotations.](https://www.logicbig.com/tutorials/core-java-tutorial/java-8-enhancements/type-annotations.html)
 
-### Async HTTP Client Protocol API (to expand)
+### Async HTTP Client Protocol API
 It was included in _Java9_ as an _incubator module_. In Java11 it was moved to be a part of _Java SE Standard_.  
 The new classes are:  
 
@@ -273,8 +286,6 @@ String s = "bla\nble";
 List<String> lines = s.lines().collect(Collectors.toList()); // bla
 															  // ble
 ```
-
-### TLS 1.3 (to expand)
 
 ### Misc
 JavaEE and CORBA modules were removed.  
